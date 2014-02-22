@@ -1,4 +1,4 @@
 DataStructuresAndAlgorithms
 ===========================
 
-Various files for reference on data structures and algorithsm, written in C++
+Various files for reference on data structures and algorithms, written in C++

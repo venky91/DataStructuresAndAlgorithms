@@ -1,7 +1,6 @@
 #ifndef _LinkedList
 #define _LinkedList
 #include <iostream>
-using namespace std;
 
 class LinkedList {
 
@@ -96,11 +95,11 @@ void LinkedList::printMe() {
 
     while (n != NULL) {
         
-        cout << n->data << " ";
+        std::cout << n->data << " ";
         n = n->next;
     }
 
-    cout << endl;
+    std::cout << std::endl;
 }
 
 void LinkedList::remove(int d) {

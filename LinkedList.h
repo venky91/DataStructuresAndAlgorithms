@@ -8,7 +8,7 @@ class LinkedList {
 
     private:
         class Node {
-
+            
             public:
                 int data;
                 Node* next = NULL;
@@ -16,98 +16,6 @@ class LinkedList {
                     data = d;
                 }
                 ~Node() {}
-                void appendToTail(int d) {
-            
-                    Node* n = this; 
-    
-                    while (n->next != NULL) {
-                        n = n->next;
-                    }
-
-                    Node* next = new Node(d);
-                    n->next = next;
-            
-                }
-                Node* remove(Node* head, int d) {
-                    if (head == NULL) {
-                        return NULL;
-                    }
-
-                    if (head->data == d) {
-                        Node* dummy = head;
-                        head = head->next;
-                        delete dummy;
-                        return head;
-                    }
-
-                    Node* n = head;
-                    while (n->next != NULL) {
-                        if (n->next->data == d) {
-                            Node* dummy = n->next;
-                            n->next = n->next->next;
-                            delete dummy;
-                            break;
-                        }
-                        n = n->next;
-                    }
-
-                    return head;
-
-                }
-                void removeDups() {
-
-                    Node* n = this;
-
-                    if (n == NULL) {
-                        return;
-                    }
-                    std::map<int,bool> m;
-                    m[n->data] = true;
-
-                    while (n->next != NULL) {
-                        if (m.find(n->next->data) != m.end()) { // duplicate entry
-                            Node* dummy = n->next;                            
-                            n->next = n->next->next;
-                            delete dummy;
-                        }
-                        else {
-                            m[n->next->data] = true;
-                            n = n->next;
-                        }
-                    }
-
-                }
-
-                void removeDups2() {
-
-                    Node* n = this;
-                    
-                    if (n == NULL) {
-                        return;
-                    }
-
-                    Node* runner;
-
-                    while (n != NULL) {
-                        runner = n;
-                        
-                        while (runner->next != NULL) {
-                            if (runner->next->data == n->data) {
-                                Node* dummy = runner->next;
-                                runner->next = runner->next->next;
-                                delete dummy;
-                            }
-                            else {
-                                runner = runner->next;
-                            }
-                        }
-
-                        n = n->next;
-                        
-                    }
-                }
-
-
         };
 
         Node* head = NULL;
@@ -125,11 +33,9 @@ class LinkedList {
 
 };
 
-LinkedList::LinkedList() {
+LinkedList::LinkedList() {}
 
-}
-
-LinkedList::~LinkedList() {
+LinkedList::~LinkedList(){
 
     Node* next;
 
@@ -148,7 +54,14 @@ void LinkedList::append(int d) {
         return;
     }
 
-    head->appendToTail(d);
+    Node* n = head;
+
+    while (n->next != NULL) {
+        n = n->next;
+    }
+
+    Node* next = new Node(d);
+    n->next = next;
 
 }
 
@@ -157,7 +70,6 @@ void LinkedList::printMe() {
     Node* n = head;
 
     while (n != NULL) {
-        
         std::cout << n->data << " ";
         n = n->next;
     }
@@ -167,19 +79,76 @@ void LinkedList::printMe() {
 
 void LinkedList::remove(int d) {
 
-    head = head->remove(head, d);
-    
+    if (head == NULL) {
+        return;
+    }
+
+    if (head->data == d) {
+        Node* dummy = head;
+        head = head->next;
+        delete dummy;
+        return;
+    }
+
+    Node* n = head;
+    while (n->next != NULL) {
+        if (n->next->data == d) {
+            Node* dummy = n->next;
+            n->next = n->next->next;
+            delete dummy;
+            break;
+        }
+        n = n->next;
+    }
+
 }
 
 void LinkedList::removeDups() {
 
-    head->removeDups();
+    if (head == NULL) {
+        return;
+    }
 
+    Node* n = head; 
+    std::map<int, bool> m;
+    m[n->data] = true;
+
+    while (n->next != NULL) {
+        if (m.find(n->next->data) != m.end()) { // duplicate entry
+            Node* dummy = n->next;
+            n->next = n->next->next;
+            delete dummy;
+        }
+        else {
+            m[n->next->data] = true;
+            n = n->next;
+        }
+    }
 }
 
-void LinkedList::removeDups2() {
+void LinkedList::removeDups2() { 
 
-    head->removeDups2();
+    if (head == NULL) {
+        return;
+    }
+    Node* current = head;
+    Node* runner;
+
+    while (current != NULL) {
+        runner= current;
+        while (runner->next != NULL) {
+            if (runner->next->data == current->data) {
+                Node* dummy = runner->next;
+                runner->next = runner->next->next;
+                delete dummy;
+            }
+            else {
+                runner = runner->next;
+            }
+        }
+        current = current->next;
+    }
+
 }
 
 bool LinkedList::isPalindrome() {
